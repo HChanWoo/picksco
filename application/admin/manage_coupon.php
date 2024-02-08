@@ -8,7 +8,6 @@ $con = mysqli_connect($host, $username, $password, $dbname);
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     parse_str(file_get_contents("php://input"), $data);
     $id = $data['id'];
-
     $deleteSql = "DELETE FROM coupon WHERE id = '$id'";
     mysqli_query($con, $deleteSql);
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {

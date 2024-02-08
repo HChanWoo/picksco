@@ -19,7 +19,11 @@
         $sql = "select * from coupon where id = {$couponId};";
         $result = mysqli_query($con, $sql);
 
-        $info = mysqli_fetch_array($result);
+        if (!$result || mysqli_num_rows($result) == 0) {
+            echo "쿠폰이 존재하지 않습니다.";
+        } else {
+            $info = mysqli_fetch_array($result);
+        }
     }
 ?>
 
@@ -52,40 +56,43 @@
     </style>
     <title>픽스 쿠폰</title>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.3.1.js"></script>
-    <script src="../api/api.js"></script>
 </head>
 <body>
-    <div id="coupon-container">
-        <?php 
-        ?>
-        <p id="coupon-name">
-            <?php echo "카페이용 쿠폰({$info['type']})"; ?>
-        </p>
-        <p id="coupon-date">
-            <?php echo "{$info['valid_start_date']} ~ {$info['valid_end_date']}"; ?>
-        </p>
-        <p id="coupon-info">
-            <?php echo $info['info']; ?>
-        </p>
-        <div id="coupon-btn_container">
-            <button onclick="useCoupon()">사용하기</button>
+    <?php if ($result and mysqli_num_rows($result) !== 0) {?>
+        <div id="coupon-container">
+                <p id="coupon-name">
+                    <?php echo "카페이용 쿠폰({$info['type']})"; ?>
+                </p>
+                <p id="coupon-date">
+                    <?php echo "{$info['valid_start_date']} ~ {$info['valid_end_date']}"; ?>
+                </p>
+                <p id="coupon-info">
+                    <?php echo nl2br($info['info']); ?>
+                </p>
+                <div id="coupon-btn_container">
+                    <button onclick="useCoupon(<?php echo $couponId?>)">사용하기</button>
+                </div>
         </div>
-    </div>
+    <?php } else if($info['is_used'] === 1) { echo '이미 사용된 쿠폰입니다.'; }?>
     <script>
-        function useCoupon() {
+        function useCoupon(couponId) {
             if (window.confirm('쿠폰을 사용하시겠습니까?')) {
-                alert('사용되었습니다.');
-                // try {
-                //     const response = await api.
-                //     if (response === 401) {
-                //         alert(ALERT_MESSAGE.TOKEN_OVER);
-                //         logout();
-                //         return;
-                //     }
-                // location.reload();
-                // } catch (error) {
-                //     navigate('/error');
-                // }
+                fetch('update_coupon.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: 'id=' + encodeURIComponent(couponId),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('사용되었습니다.');
+                        location.reload();
+                    } else {
+                        console.error('쿠폰 사용에 실패했습니다.');
+                    }
+                })
+                .catch(error => console.error(error));
             }
         }
     </script>

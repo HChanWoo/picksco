@@ -53,40 +53,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-        td, th {
-            text-align:center;
-            border: 1px solid black;
-            padding: 10px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: white;
-            border: 1px solid black;
-            z-index: 1;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        input {
-            margin: 5px 0 15px;
-        }
-    </style>
     <title>Document</title>
+    <link rel="stylesheet" href="manage.css"/>
 </head>
 <body>
     <div>
-        <button onclick="openModal('postModal')">추가하기</button>
-
+        <div id="overlay"></div>
         <div class="modal" id="postModal">
             <form method="POST">
                 <label>쿠폰 종류</label>
@@ -133,63 +105,87 @@
                 </div>
             </form>
         </div>
-
-        <table>
-            <colgroup>
-                <col style="width:10px">
-                <col style="width:200px">
-                <col style="width:200px">
-                <col style="width:200px">
-                <col style="width:200px">
-                <col style="width:200px">
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>쿠폰 종류</th>
-                    <th>유효기간</th>
-                    <th>사용안내</th>
-                    <th>사용여부</th>
-                    <th>수정/삭제</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($result as $row) {?>
+        
+        <header>
+            <img height="20px" width="20px" src="https://oopy.lazyrockets.com/api/rest/cdn/image/f7a1cc04-976a-48e1-b8d0-75b3b467b04c.png" />
+            <p>쿠폰 관리자 페이지</p>
+        </header>
+        <nav>
+            <div id="coupon">
+                <p>COUPON</p>
+            </div>
+            <a href="../client/coupon.php">
+                <div id="goUsage">
+                    <p>쿠폰 사용처 가보기</p>
+                </div>
+            </a>
+        </nav>
+        <main>
+            <button id="add" onclick="openModal('postModal')">+</button>
+            <table>
+                <colgroup>
+                    <col style="width:10px">
+                    <col style="width:200px">
+                    <col style="width:200px">
+                    <col style="width:200px">
+                    <col style="width:200px">
+                    <col style="width:200px">
+                </colgroup>
+                <thead>
                     <tr>
-                        <td>
-                            <?php echo $row['id']?>
-                        </td>
-                        <td>
-                            <?php echo $row['type']?>
-                        </td>
-                        <td>
-                            <?php echo "{$row['valid_start_date']} - {$row['valid_end_date']}"?>
-                        </td>
-                        <td>
-                            <?php echo $row['info']?>
-                        </td>
-                        <td>
-                            <?php echo $row['is_used']?>
-                        </td>
-                        <td>
-                            <button onclick="openModal('patchModal', <?php echo $row['id']; ?>)">수정</button>
-                            <button onclick="deleteCoupon(<?php echo $row['id']; ?>)">삭제</button>
-                        </td>
+                        <th>id</th>
+                        <th>쿠폰 종류</th>
+                        <th>유효기간</th>
+                        <th>사용안내</th>
+                        <th>사용여부</th>
+                        <th>수정/삭제</th>
                     </tr>
-                <?php }?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach($result as $row) {?>
+                        <tr>
+                            <td>
+                                <?php echo $row['id']?>
+                            </td>
+                            <td>
+                                <?php echo $row['type']?>
+                            </td>
+                            <td>
+                                <?php echo "{$row['valid_start_date']} - {$row['valid_end_date']}"?>
+                            </td>
+                            <td>
+                                <?php echo nl2br($row['info'])?>
+                            </td>
+                            <td>
+                                <?php echo $row['is_used']?>
+                            </td>
+                            <td>
+                                <button onclick="openModal('patchModal', <?php echo $row['id']; ?>)">수정</button>
+                                <button onclick="deleteCoupon(<?php echo $row['id']; ?>)">삭제</button>
+                            </td>
+                        </tr>
+                    <?php }?>
+                </tbody>
+            </table>
+        </main>
+        
     </div>
     <script>
         function openModal(name,id=0) {
             if(name==='patchModal') {
-                getCoupon(name,id)
+                getCoupon(name,id);
             } else {
                 document.getElementById(name).style.display = 'block';
             }
+            document.getElementById('overlay').style.display = 'block';
+
+            document.getElementById('overlay').addEventListener('click', function () {
+                closeModal(name);
+            });
         }
         function closeModal(name) {
             document.getElementById(name).style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
         }
 
         function getCoupon(name,id) {

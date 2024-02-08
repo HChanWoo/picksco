@@ -1,0 +1,103 @@
+body,p {
+    margin:0;
+}
+header {
+    position:fixed;
+    top:0;
+    width: 100%;
+    height: 50px;
+    padding: 0 30px;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+header p {
+    margin-left: 10px;
+}
+nav {
+    position: fixed;
+    width: 150px;
+    height: calc(100% - 50px);
+    background-color: black;
+    color: white;
+}
+nav div#coupon {
+    background-color: #323232;
+    width: 100%;
+    height: 60px;
+}
+nav div#coupon p {
+    margin: 0 30px;
+    font-size: 20px;
+    line-height: 60px;
+}
+nav div#goUsage {
+    position: absolute;
+    bottom: 0;
+    color: white;
+    font-size: 15px;
+    height: 50px;
+    line-height: 50px;
+    cursor: pointer;
+}
+main {
+    margin:50px 0 0 150px;
+    padding: 50px;
+    background-color: #f1f3f5;
+}
+button#add {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    font-size: 40px;
+    background-color: #4d4dff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width:50px;
+    height: 50px;
+    border-radius:400%;
+}
+button#add:hover {
+    border: 2px solid black;
+}
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: white;
+}
+td, th {
+    text-align:center;
+    border: 1px solid black;
+    padding: 10px;
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 1px solid black;
+    z-index: 1;
+}
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+form {
+    display: flex;
+    flex-direction: column;
+}
+select, input, textarea {
+    margin: 5px 0 15px;
+}
