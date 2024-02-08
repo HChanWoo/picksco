@@ -114,11 +114,6 @@
             <div id="coupon">
                 <p>COUPON</p>
             </div>
-            <a href="../client/coupon.php/1">
-                <div id="goUsage">
-                    <p>쿠폰 사용처 가보기</p>
-                </div>
-            </a>
         </nav>
         <main>
             <button id="add" onclick="openModal('postModal')">+</button>
@@ -145,7 +140,7 @@
                 <tbody>
                     <?php foreach($result as $row) {?>
                         <tr>
-                            <td>
+                            <td onclick="copyToClipboard(<?php echo $row['id']; ?>)">
                                 <?php echo $row['id']?>
                             </td>
                             <td>
@@ -226,6 +221,21 @@
                 })
                 .catch(error => console.error(error));
             }
+        }
+
+        function copyToClipboard(couponId) {
+            let currentUrl = window.location.href;
+            let applicationIndex = currentUrl.indexOf('application');
+
+            let baseUrl = currentUrl.substring(0, applicationIndex + 'application'.length);
+            let url = baseUrl + '/client/coupon.php/' + couponId;
+            navigator.clipboard.writeText(url)
+            .then(() => {
+                alert('클립보드에 저장되었습니다.');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
         }
     </script>
 </body>
