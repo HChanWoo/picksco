@@ -114,7 +114,7 @@
             <div id="coupon">
                 <p>COUPON</p>
             </div>
-            <a href="../client/coupon.php">
+            <a href="../client/coupon.php/1">
                 <div id="goUsage">
                     <p>쿠폰 사용처 가보기</p>
                 </div>

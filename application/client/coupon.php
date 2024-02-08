@@ -73,7 +73,7 @@
                     <button onclick="useCoupon(<?php echo $couponId?>)">사용하기</button>
                 </div>
         </div>
-    <?php } else if($info['is_used'] === 1) { echo '이미 사용된 쿠폰입니다.'; }?>
+    <?php } else if($result and mysqli_num_rows($result) !== 0 and $info['is_used'] === 1) { echo '이미 사용된 쿠폰입니다.'; }?>
     <script>
         function useCoupon(couponId) {
             if (window.confirm('쿠폰을 사용하시겠습니까?')) {
