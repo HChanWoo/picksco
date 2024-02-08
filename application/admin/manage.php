@@ -97,7 +97,7 @@
                 <input type="datetime-local" name="valid_end_date" required>
                 
                 <label>사용 안내</label>
-                <input type="text" name="info" required>
+                <textarea id="info" name="info" required></textarea>
                 
                 <div>
                     <button type="submit">수정완료</button>
@@ -122,6 +122,7 @@
         </nav>
         <main>
             <button id="add" onclick="openModal('postModal')">+</button>
+            <?php if($count !== 0) {?>
             <table>
                 <colgroup>
                     <col style="width:10px">
@@ -157,7 +158,13 @@
                                 <?php echo nl2br($row['info'])?>
                             </td>
                             <td>
-                                <?php echo $row['is_used']?>
+                                <?php 
+                                if($row['is_used'] === 1) {
+                                    echo '사용완료';
+                                } else {
+                                    echo '미사용';
+                                }
+                                ?>
                             </td>
                             <td>
                                 <button onclick="openModal('patchModal', <?php echo $row['id']; ?>)">수정</button>
@@ -167,8 +174,8 @@
                     <?php }?>
                 </tbody>
             </table>
+            <?php } else { echo '데이터가 없습니다';}?>
         </main>
-        
     </div>
     <script>
         function openModal(name,id=0) {
