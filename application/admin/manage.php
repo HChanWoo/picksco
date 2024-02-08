@@ -53,7 +53,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>픽스 쿠폰 관리자 페이지</title>
     <link rel="stylesheet" href="manage.css"/>
 </head>
 <body>
